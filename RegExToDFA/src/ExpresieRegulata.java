@@ -12,10 +12,6 @@ public class ExpresieRegulata {
         this.expresieScanare = "(" + this.expresie + ")#";
     }
 
-    public String getExpresie() {
-        return expresie;
-    }
-
     public void setExpresie(String expresie) {
         this.expresie = expresie;
     }

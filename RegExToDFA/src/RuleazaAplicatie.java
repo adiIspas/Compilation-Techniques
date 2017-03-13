@@ -4,12 +4,12 @@
 public class RuleazaAplicatie {
     public static void main(String []args) {
 
-        ExpresieRegulata regEx = new ExpresieRegulata("(a|bb)*ba","ab");
+        ExpresieRegulata regEx = new ExpresieRegulata("a*.(a|b)","ab");
+        Arbore arbore = new Arbore();
+        arbore.construiesteArbore(regEx);
 
-        Arbore arbore = new Arbore(regEx);
 
-        arbore.ConstruiesteArbore();
-
-        System.out.print("Done");
+        System.out.println(arbore);
+        System.out.print("\n------- Done -------\n");
     }
 }
