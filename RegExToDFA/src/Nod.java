@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -7,6 +8,11 @@ public class Nod {
     private Character valoare;
     private Nod stanga;
     private Nod dreapta;
+    private int pozitie;
+    private boolean nullable;
+    private List<Integer> firstPos = new LinkedList<>();
+    private List<Integer> lastPos = new LinkedList<>();
+    private List<Integer> followPos = new LinkedList<>();
 
     public Nod(Character valoare, Nod stanga, Nod dreapta){
         this.valoare = valoare;
@@ -38,12 +44,53 @@ public class Nod {
         this.dreapta = dreapta;
     }
 
+    public int getPozitie() {
+        return pozitie;
+    }
+
+    public void setPozitie(int pozitie) {
+        this.pozitie = pozitie;
+    }
+
+    public boolean isNullable() {
+        return nullable;
+    }
+
+    public void setNullable(boolean nullable) {
+        this.nullable = nullable;
+    }
+
+    public List<Integer> getFirstPos() {
+        return firstPos;
+    }
+
+    public void addFirstPos(int firstPos) {
+        this.firstPos.add(firstPos);
+    }
+
+    public List<Integer> getLastPos() {
+        return lastPos;
+    }
+
+    public void addLastPos(int lastPos) {
+        this.lastPos.add(lastPos);
+    }
+
+    public List<Integer> getFollowPos() {
+        return followPos;
+    }
+
+    public void addFollowPos(int followPos) {
+        this.followPos.add(followPos);
+    }
+
     @Override
     public String toString() {
         return "Nod{" +
                 "valoare=" + valoare +
                 ", stanga=" + stanga +
                 ", dreapta=" + dreapta +
+                ", nullable= " + nullable +
                 '}';
     }
 }

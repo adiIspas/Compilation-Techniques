@@ -12,6 +12,14 @@ public class Arbore {
         this.radacina = null;
     }
 
+    public Nod getRadacina() {
+        return radacina;
+    }
+
+    public void setRadacina(Nod radacina) {
+        this.radacina = radacina;
+    }
+
     public void construiesteArbore(ExpresieRegulata regEx){
         String expresie = regEx.getExpresieScanare();
         String alfabet  = regEx.getAlfabet();
@@ -37,12 +45,31 @@ public class Arbore {
         }
     }
 
-    public Nod getRadacina() {
-        return radacina;
-    }
+    public void parcuregerePostordine(Nod radacina, Stack<Integer> pozitii){
 
-    public void setRadacina(Nod radacina) {
-        this.radacina = radacina;
+        if (radacina == null)
+            return;
+
+        if(radacina.getStanga() == null && radacina.getDreapta() == null){
+            radacina.setPozitie(pozitii.pop());
+            radacina.setNullable(false);
+            System.out.print(radacina.getValoare() + " - " + radacina.getPozitie() + " \n");
+        }
+
+        if(radacina.getValoare().equals('*')){
+            radacina.setNullable(true);
+        }
+
+        if(radacina.getValoare().equals('|')){
+            radacina.setNullable(radacina.getStanga().isNullable() || radacina.getDreapta().isNullable());
+        }
+
+        if(radacina.getValoare().equals('.')){
+            radacina.setNullable(radacina.getStanga().isNullable() && radacina.getDreapta().isNullable());
+        }
+
+        parcuregerePostordine(radacina.getStanga(), pozitii);
+        parcuregerePostordine(radacina.getDreapta(), pozitii);
     }
 
     @Override
