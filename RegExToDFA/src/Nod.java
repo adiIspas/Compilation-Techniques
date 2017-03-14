@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -10,11 +11,11 @@ public class Nod {
     private Nod dreapta;
     private int pozitie;
     private boolean nullable;
-    private List<Integer> firstPos = new LinkedList<>();
-    private List<Integer> lastPos = new LinkedList<>();
-    private List<Integer> followPos = new LinkedList<>();
+    private HashSet<Integer> firstPos = new HashSet<>();
+    private HashSet<Integer> lastPos = new HashSet<>();
+    private HashSet<Integer> followPos = new HashSet<>();
 
-    public Nod(Character valoare, Nod stanga, Nod dreapta, int pozitie, boolean nullable, List<Integer> firstPos, List<Integer> lastPos, List<Integer> followPos){
+    public Nod(Character valoare, Nod stanga, Nod dreapta, int pozitie, boolean nullable, HashSet<Integer> firstPos, HashSet<Integer> lastPos, HashSet<Integer> followPos){
         this.valoare = valoare;
         this.stanga = stanga;
         this.dreapta = dreapta;
@@ -65,28 +66,28 @@ public class Nod {
         this.nullable = nullable;
     }
 
-    public List<Integer> getFirstPos() {
+    public HashSet<Integer> getFirstPos() {
         return firstPos;
     }
 
-    public void addFirstPos(int firstPos) {
-        this.firstPos.add(firstPos);
+    public void addFirstPos(HashSet<Integer>  firstPos) {
+        this.firstPos.addAll(firstPos);
     }
 
-    public List<Integer> getLastPos() {
+    public HashSet<Integer> getLastPos() {
         return lastPos;
     }
 
-    public void addLastPos(int lastPos) {
-        this.lastPos.add(lastPos);
+    public void addLastPos(HashSet<Integer>  lastPos) {
+        this.lastPos.addAll(lastPos);
     }
 
-    public List<Integer> getFollowPos() {
+    public HashSet<Integer> getFollowPos() {
         return followPos;
     }
 
-    public void addFollowPos(int followPos) {
-        this.followPos.add(followPos);
+    public void addFollowPos(HashSet<Integer>  followPos) {
+        this.followPos.addAll(followPos);
     }
 
     @Override
@@ -96,6 +97,7 @@ public class Nod {
                 ", stanga=" + stanga +
                 ", dreapta=" + dreapta +
                 ", pozitie= " + pozitie +
+                ", nullable= " + nullable +
                 '}';
     }
 }

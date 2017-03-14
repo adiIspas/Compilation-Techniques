@@ -6,10 +6,12 @@ import java.util.Stack;
 public class ExpresieRegulata {
     private String expresie;
     private String alfabet;
+    private Character lambda;
 
-    public ExpresieRegulata(String expresie, String alfabet){
+    public ExpresieRegulata(String expresie, String alfabet, Character lambda){
         this.expresie = expresie;
         this.alfabet = alfabet;
+        this.lambda = lambda;
     }
 
     public void setExpresie(String expresie) {
@@ -26,6 +28,14 @@ public class ExpresieRegulata {
 
     public void setAlfabet(String alfabet) {
         this.alfabet = alfabet;
+    }
+
+    public Character getLambda() {
+        return lambda;
+    }
+
+    public void setLambda(Character lambda) {
+        this.lambda = lambda;
     }
 
     public int getNumarCaractereAlfabetDinExpresie(){
