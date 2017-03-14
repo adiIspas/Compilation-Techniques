@@ -6,13 +6,12 @@ import java.util.Stack;
 public class RuleazaAplicatie {
     public static void main(String []args) {
 
-        ExpresieRegulata regEx = new ExpresieRegulata("(a|b)*.a","ab#");
+//        ExpresieRegulata regEx = new ExpresieRegulata(".|ab#","ab#");
+        ExpresieRegulata regEx = new ExpresieRegulata("..*|.ab.ba*|.aa.ba#","ab#");
+//        ExpresieRegulata regEx = new ExpresieRegulata("..*|a.bb*|b.a.ab#","ab#");
         Arbore arbore = new Arbore();
         arbore.construiesteArbore(regEx);
 
-        Stack<Integer> pozitii = regEx.construiestePozitii();
-
-        arbore.parcuregerePostordine(arbore.getRadacina(), pozitii);
         System.out.println(arbore);
         System.out.print("\n------- Done -------\n");
     }

@@ -6,16 +6,18 @@ import java.util.Stack;
 public class ExpresieRegulata {
     private String expresie;
     private String alfabet;
-    private String expresieScanare;
 
     public ExpresieRegulata(String expresie, String alfabet){
         this.expresie = expresie;
         this.alfabet = alfabet;
-        this.expresieScanare = "(" + this.expresie + ").#";
     }
 
     public void setExpresie(String expresie) {
         this.expresie = expresie;
+    }
+
+    public String getExpresie() {
+        return expresie;
     }
 
     public String getAlfabet() {
@@ -26,28 +28,14 @@ public class ExpresieRegulata {
         this.alfabet = alfabet;
     }
 
-    public String getExpresieScanare() {
-        return expresieScanare;
-    }
-
-    private int getNumarCaractereAlfabet(){
+    public int getNumarCaractereAlfabetDinExpresie(){
         int numarCaractere = 0;
-        for(int i = 0; i < expresieScanare.length(); i++){
-            if(alfabet.indexOf(expresieScanare.charAt(i)) != -1){
+        for(int i = 0; i < expresie.length(); i++){
+            if(alfabet.indexOf(expresie.charAt(i)) != -1){
                 numarCaractere++;
             }
         }
 
         return numarCaractere;
-    }
-
-    public Stack<Integer> construiestePozitii(){
-        Stack<Integer> pozitii = new Stack<>();
-
-        for(int i = getNumarCaractereAlfabet(); i >= 1; i--){
-            pozitii.push(i);
-        }
-
-        return pozitii;
     }
 }

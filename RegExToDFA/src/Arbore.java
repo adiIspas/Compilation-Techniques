@@ -21,27 +21,40 @@ public class Arbore {
     }
 
     public void construiesteArbore(ExpresieRegulata regEx){
-        String expresie = regEx.getExpresieScanare();
+        String expresie = regEx.getExpresie();
         String alfabet  = regEx.getAlfabet();
+        int numarCaractere = regEx.getNumarCaractereAlfabetDinExpresie();
+        Stack<Nod> construireArboreExpresie = new Stack<>();
 
-        for(int i = 0; i < expresie.length(); i++){
-            Character elementCurent = expresie.charAt(i);
+        for(int i = expresie.length() - 1; i >= 0; i--){
+            Character caracterCurent = expresie.charAt(i);
 
-            if(alfabet.indexOf(elementCurent) != -1){
-                if(radacina == null){
-                    radacina = new Nod(elementCurent, null, null);
-                }
-                else if(radacina.getStanga() == null){
-                    radacina.setStanga(new Nod(elementCurent,null,null));
-                }
-                else if(radacina.getDreapta() == null){
-                    radacina.setDreapta(new Nod(elementCurent, null, null));
-                }
+            if(alfabet.indexOf(caracterCurent.toString()) != -1){
+                Nod nodCurent = new Nod(caracterCurent, null, null, numarCaractere,
+                        false, new LinkedList<Integer>(), new LinkedList<Integer>(), new LinkedList<Integer>());
+                numarCaractere--;
+                construireArboreExpresie.push(nodCurent);
             }
-            else if(elementCurent.equals('.') || elementCurent.equals('|') || elementCurent.equals('*')) {
-                Nod radacinaVeche = radacina;
-                radacina = new Nod(elementCurent, radacinaVeche, null);
+            else if(caracterCurent.equals('|') || caracterCurent.equals('.')){
+                Nod stanga = construireArboreExpresie.pop();
+                Nod dreapta = construireArboreExpresie.pop();
+                Nod nodCurent = new Nod(caracterCurent, stanga, dreapta, -1,
+                        false, new LinkedList<Integer>(), new LinkedList<Integer>(), new LinkedList<Integer>());
+                construireArboreExpresie.push(nodCurent);
             }
+            else if(caracterCurent.equals('*')){
+                Nod stanga = construireArboreExpresie.pop();
+                Nod nodCurent = new Nod(caracterCurent, stanga, null, -1,
+                        false, new LinkedList<Integer>(), new LinkedList<Integer>(), new LinkedList<Integer>());
+                construireArboreExpresie.push(nodCurent);
+            }
+        }
+
+        System.out.println("Dimensiune stiva " + construireArboreExpresie.size());
+
+        radacina = construireArboreExpresie.pop();
+        while(!construireArboreExpresie.empty()){
+            System.out.println(construireArboreExpresie.pop());
         }
     }
 

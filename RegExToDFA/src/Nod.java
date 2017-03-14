@@ -14,10 +14,15 @@ public class Nod {
     private List<Integer> lastPos = new LinkedList<>();
     private List<Integer> followPos = new LinkedList<>();
 
-    public Nod(Character valoare, Nod stanga, Nod dreapta){
+    public Nod(Character valoare, Nod stanga, Nod dreapta, int pozitie, boolean nullable, List<Integer> firstPos, List<Integer> lastPos, List<Integer> followPos){
         this.valoare = valoare;
         this.stanga = stanga;
         this.dreapta = dreapta;
+        this.pozitie = pozitie;
+        this.nullable = nullable;
+        this.firstPos = firstPos;
+        this.lastPos = lastPos;
+        this.followPos = followPos;
     }
 
     public Character getValoare() {
@@ -90,7 +95,7 @@ public class Nod {
                 "valoare=" + valoare +
                 ", stanga=" + stanga +
                 ", dreapta=" + dreapta +
-                ", nullable= " + nullable +
+                ", pozitie= " + pozitie +
                 '}';
     }
 }
