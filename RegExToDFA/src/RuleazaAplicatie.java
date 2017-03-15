@@ -20,7 +20,6 @@ public class RuleazaAplicatie {
 
         System.out.print("\n------- Done1! -------\n");
         AFD afd = new AFD(regEx.getAlfabet());
-        System.out.println(afd);
         afd.construiesteAFD(arbore);
         System.out.println(afd);
 

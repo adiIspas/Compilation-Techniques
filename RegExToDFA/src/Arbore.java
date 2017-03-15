@@ -142,10 +142,6 @@ public class Arbore {
             } break;
             default: {}
         }
-
-            System.out.println("Nod => " + radacina.getValoare() + " Pozitie => " + radacina.getPozitie() +
-                    " Nullable => " + radacina.isNullable() + " FirstPos => " + radacina.getFirstPos() +
-                    " LastPos => " + radacina.getLastPos());
     }
 
 

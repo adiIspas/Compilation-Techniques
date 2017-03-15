@@ -6,10 +6,10 @@ import java.util.Iterator;
  * Created by Adrian Ispas on 15.03.2017.
  */
 public class AFD {
-    private HashMap<String, Boolean> stari;
+    private HashMap<HashSet<Integer>, Boolean> stari;
     private String alfabet;
-    private HashMap<String, Character> tranzitii;
-    private String stareInitiala;
+    private HashMap<String, HashMap<String,Character>> tranzitii;
+    private HashSet<Integer> stareInitiala;
     private HashSet<String> stariFinale;
 
     public AFD(String alfabet){
@@ -24,44 +24,59 @@ public class AFD {
         HashMap<Integer, HashSet<Integer>> tabelFollowPos = arboreExpresie.getTabelFollowPos();
         HashMap<Integer, Character> frunzeArbore = arboreExpresie.getFrunze();
 
-        stareInitiala = arboreExpresie.getRadacina().getFirstPos().toString();
+        stareInitiala = arboreExpresie.getRadacina().getFirstPos();
+
         boolean found = true;
 
         stari.put(stareInitiala,false);
-        if(stareInitiala.contains("#")){
-            stariFinale.add(stareInitiala);
+        if(stareInitiala.toString().contains("#")){
+            stariFinale.add(stareInitiala.toString());
         }
 
         while(found){
+            HashSet<Integer> stareCurentaCoada = new HashSet<>();
             found = false;
-            for (String stare:stari.keySet()) {
-                if(stari.get(stare).booleanValue() == false){
+            for (HashSet<Integer> stare:stari.keySet()) {
+                if(!stari.get(stare).booleanValue()){
                     found = true;
                     stari.put(stare,true);
+                    stareCurentaCoada = stare;
+                    break;
                 }
             }
 
-            if(found == false){
+            if(!found){
                 break;
             }
 
-            HashSet<Integer> stareaCurenta = new HashSet<>();
-            for(Character element:alfabet.toCharArray()) {
-                for(int i = 1; i < frunzeArbore.size(); i++){
-                    if(frunzeArbore.get(i).equals(element)){
-                        stareaCurenta.addAll(tabelFollowPos.get(i));
+
+
+            for(Character element:alfabet.toCharArray()){
+                HashSet<Integer> stareaCurentaCompusa = new HashSet<>();
+                HashSet<Character> alfabetStareCurenta = new HashSet<>();
+
+                for (Integer pozitie:stareCurentaCoada) {
+                    if (frunzeArbore.get(pozitie).equals(element)) {
+                        alfabetStareCurenta.add(frunzeArbore.get(pozitie));
+                        if (pozitie != frunzeArbore.size())
+                            stareaCurentaCompusa.addAll(tabelFollowPos.get(pozitie));
                     }
                 }
 
-                if(!stari.containsKey(stareaCurenta.toString())){
-                    stari.put(stareaCurenta.toString(),false);
-                    if(stareaCurenta.toString().contains("#")){
-                        stariFinale.add(stareaCurenta.toString());
+                System.out.println(alfabetStareCurenta + " " + stareaCurentaCompusa);
+                if(!stari.containsKey(stareaCurentaCompusa)){
+                    stari.put(stareaCurentaCompusa,false);
+
+                    if(alfabetStareCurenta.toString().contains("#")){
+                        stariFinale.add(stareaCurentaCompusa.toString());
                     }
                 }
 
-                tranzitii.put(stareaCurenta.toString(),element);
+//                HashMap<String,Character> tranzitieCatre = new HashMap<>();
+//                tranzitieCatre.put(stareaCurentaCompusa.toString(),element);
+//                tranzitii.put(stareCurentaCoada.toString(),tranzitieCatre);
             }
+
         }
     }
 
