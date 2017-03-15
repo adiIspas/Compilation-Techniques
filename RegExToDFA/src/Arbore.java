@@ -6,10 +6,12 @@ import java.util.*;
 public class Arbore {
     private Nod radacina;
     private HashMap<Integer, HashSet<Integer>> tabelFollowPos;
+    private HashMap<Integer, Character> frunze;
 
     public Arbore(){
         this.radacina = null;
         this.tabelFollowPos = new HashMap<>();
+        this.frunze = new HashMap<>();
     }
 
     public Nod getRadacina() {
@@ -43,6 +45,8 @@ public class Arbore {
 
                 Nod nodCurent = new Nod(caracterCurent, null, null, numarCaractere,
                         nullable, firstLastBeginPos, firstLastBeginPos, new HashSet<Integer>());
+
+                frunze.put(numarCaractere,caracterCurent);
                 numarCaractere--;
                 construireArboreExpresie.push(nodCurent);
             }
@@ -144,6 +148,11 @@ public class Arbore {
                     " LastPos => " + radacina.getLastPos());
     }
 
+
+
+    public HashMap<Integer, Character> getFrunze(){
+        return frunze;
+    }
     @Override
     public String toString() {
         return "Arbore{" +
