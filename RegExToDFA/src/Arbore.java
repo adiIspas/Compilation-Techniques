@@ -144,8 +144,6 @@ public class Arbore {
         }
     }
 
-
-
     public HashMap<Integer, Character> getFrunze(){
         return frunze;
     }

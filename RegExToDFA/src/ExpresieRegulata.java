@@ -1,5 +1,3 @@
-import java.util.Stack;
-
 /**
  * Created by Adrian Ispas on 12.03.2017.
  */
@@ -14,10 +12,6 @@ public class ExpresieRegulata {
         this.lambda = lambda;
     }
 
-    public void setExpresie(String expresie) {
-        this.expresie = expresie;
-    }
-
     public String getExpresie() {
         return expresie;
     }
@@ -26,16 +20,8 @@ public class ExpresieRegulata {
         return alfabet;
     }
 
-    public void setAlfabet(String alfabet) {
-        this.alfabet = alfabet;
-    }
-
     public Character getLambda() {
         return lambda;
-    }
-
-    public void setLambda(Character lambda) {
-        this.lambda = lambda;
     }
 
     public int getNumarCaractereAlfabetDinExpresie(){

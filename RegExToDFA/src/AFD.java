@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 
 /**
  * Created by Adrian Ispas on 15.03.2017.
@@ -49,8 +48,6 @@ public class AFD {
                 break;
             }
 
-
-
             for(Character element:alfabet.toCharArray()){
                 HashSet<Integer> stareaCurentaCompusa = new HashSet<>();
                 HashSet<Character> alfabetStareCurenta = new HashSet<>();
@@ -65,8 +62,9 @@ public class AFD {
 
                 if(!stari.containsKey(stareaCurentaCompusa) && stareaCurentaCompusa.size() > 0){
                     stari.put(stareaCurentaCompusa,false);
-                    
-                    if(alfabetStareCurenta.toString().contains("#")){
+
+                    String nodStareFinala = "" + frunzeArbore.size();
+                    if(stareaCurentaCompusa.toString().contains(nodStareFinala)){
                         stariFinale.add(stareaCurentaCompusa.toString());
                     }
                 }
@@ -74,18 +72,18 @@ public class AFD {
                 if(stareaCurentaCompusa.size() > 0)
                     tranzitii.put(stareCurentaCoada.toString() + " => " + stareaCurentaCompusa.toString(), element);
             }
-
         }
     }
 
     @Override
     public String toString() {
-        return "AFD{" +
-                "stari=" + stari +
-                ", alfabet='" + alfabet + '\'' +
-                ", tranzitii=" + tranzitii +
-                ", stareInitiala='" + stareInitiala + '\'' +
-                ", stariFinale=" + stariFinale +
-                '}';
+
+        String formatareRezultat = "\t\tAFD \n";
+        formatareRezultat += "Stare initiala = " + stareInitiala + "\n";
+        formatareRezultat += "Stari = " + stari + "\n";
+        formatareRezultat += "Stari finale = " + stariFinale + "\n";
+        formatareRezultat += "Tranzitii = " + tranzitii;
+
+        return formatareRezultat;
     }
 }

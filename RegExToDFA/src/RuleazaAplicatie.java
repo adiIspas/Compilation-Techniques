@@ -1,8 +1,3 @@
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Stack;
-
 /**
  * Created by Adrian Ispas on 12.03.2017.
  */
@@ -12,8 +7,9 @@ public class RuleazaAplicatie {
 //        ExpresieRegulata regEx = new ExpresieRegulata(".|ab#","ab#", '^');
 //        ExpresieRegulata regEx = new ExpresieRegulata("..*|.ab.ba*|.aa.ba#","ab#", '^');
         ExpresieRegulata regEx = new ExpresieRegulata("....*|ababb#","ab#", '^');
-
         Arbore arbore = new Arbore();
+
+        System.out.print("\n------- Start! -------\n\n");
         arbore.construiesteArbore(regEx);
 
         arbore.calculeazaFunctii(arbore.getRadacina());

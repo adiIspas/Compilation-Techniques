@@ -30,32 +30,12 @@ public class Nod {
         return valoare;
     }
 
-    public void setValoare(Character valoare) {
-        this.valoare = valoare;
-    }
-
     public Nod getStanga() {
         return stanga;
     }
 
-    public void setStanga(Nod stanga) {
-        this.stanga = stanga;
-    }
-
     public Nod getDreapta() {
         return dreapta;
-    }
-
-    public void setDreapta(Nod dreapta) {
-        this.dreapta = dreapta;
-    }
-
-    public int getPozitie() {
-        return pozitie;
-    }
-
-    public void setPozitie(int pozitie) {
-        this.pozitie = pozitie;
     }
 
     public boolean isNullable() {
@@ -84,10 +64,6 @@ public class Nod {
 
     public HashSet<Integer> getFollowPos() {
         return followPos;
-    }
-
-    public void addFollowPos(HashSet<Integer>  followPos) {
-        this.followPos.addAll(followPos);
     }
 
     @Override
