@@ -18,12 +18,11 @@ public class RuleazaAplicatie {
 
         arbore.calculeazaFunctii(arbore.getRadacina());
 
-        System.out.print("\n------- Done1! -------\n");
         AFD afd = new AFD(regEx.getAlfabet());
         afd.construiesteAFD(arbore);
         System.out.println(afd);
 
-        System.out.print("\n------- Done1! -------\n");
+        System.out.print("\n------- Done! -------\n");
 
     }
 }

@@ -8,7 +8,7 @@ import java.util.Iterator;
 public class AFD {
     private HashMap<HashSet<Integer>, Boolean> stari;
     private String alfabet;
-    private HashMap<String, HashMap<String,Character>> tranzitii;
+    private HashMap<String, Character> tranzitii;
     private HashSet<Integer> stareInitiala;
     private HashSet<String> stariFinale;
 
@@ -63,18 +63,16 @@ public class AFD {
                     }
                 }
 
-                System.out.println(alfabetStareCurenta + " " + stareaCurentaCompusa);
-                if(!stari.containsKey(stareaCurentaCompusa)){
+                if(!stari.containsKey(stareaCurentaCompusa) && stareaCurentaCompusa.size() > 0){
                     stari.put(stareaCurentaCompusa,false);
-
+                    
                     if(alfabetStareCurenta.toString().contains("#")){
                         stariFinale.add(stareaCurentaCompusa.toString());
                     }
                 }
 
-//                HashMap<String,Character> tranzitieCatre = new HashMap<>();
-//                tranzitieCatre.put(stareaCurentaCompusa.toString(),element);
-//                tranzitii.put(stareCurentaCoada.toString(),tranzitieCatre);
+                if(stareaCurentaCompusa.size() > 0)
+                    tranzitii.put(stareCurentaCoada.toString() + " => " + stareaCurentaCompusa.toString(), element);
             }
 
         }
