@@ -1,4 +1,6 @@
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -8,14 +10,16 @@ public class RuleazaAplicatie {
     public static void main(String []args) {
 
 //        ExpresieRegulata regEx = new ExpresieRegulata(".|ab#","ab#", '^');
-//        ExpresieRegulata regEx = new ExpresieRegulata("..*|.ab.ba*|.aa.ba#","ab#", '^');
-        ExpresieRegulata regEx = new ExpresieRegulata("....*|ababb#","ab#", '^');
+        ExpresieRegulata regEx = new ExpresieRegulata("..*|.ab.ba*|.aa.ba#","ab#", '^');
+//        ExpresieRegulata regEx = new ExpresieRegulata("....*|ababb#","ab#", '^');
 
         Arbore arbore = new Arbore();
         arbore.construiesteArbore(regEx);
 
-        Arbore.calculeazaFunctii(arbore.getRadacina());
-//        System.out.println(arbore);
+        arbore.calculeazaFunctii(arbore.getRadacina());
+
+        System.out.println(arbore.getTabelFollowPos());
         System.out.print("\n------- Done! -------\n");
+
     }
 }

@@ -1,15 +1,15 @@
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * Created by Adrian Ispas on 12.03.2017.
  */
 public class Arbore {
     private Nod radacina;
+    private HashMap<Integer, HashSet<Integer>> tabelFollowPos;
 
     public Arbore(){
         this.radacina = null;
+        this.tabelFollowPos = new HashMap<>();
     }
 
     public Nod getRadacina() {
@@ -18,6 +18,10 @@ public class Arbore {
 
     public void setRadacina(Nod radacina) {
         this.radacina = radacina;
+    }
+
+    public HashMap<Integer, HashSet<Integer>> getTabelFollowPos() {
+        return this.tabelFollowPos;
     }
 
     public void construiesteArbore(ExpresieRegulata regEx){
@@ -60,7 +64,7 @@ public class Arbore {
         radacina = construireArboreExpresie.pop();
     }
 
-    public static void calculeazaFunctii(Nod radacina){
+    public void calculeazaFunctii(Nod radacina){
         if(radacina.getStanga() != null){
             calculeazaFunctii(radacina.getStanga());
         }
@@ -96,11 +100,41 @@ public class Arbore {
                 }
 
                 radacina.setNullable(radacina.getDreapta().isNullable() && radacina.getStanga().isNullable());
+
+                HashSet<Integer> temp = radacina.getStanga().getLastPos();
+                Iterator<Integer> iterator = temp.iterator();
+                while(iterator.hasNext()){
+                    Integer valoare =  iterator.next();
+
+                    if(tabelFollowPos.containsKey(valoare)){
+                        HashSet<Integer> temp2 = tabelFollowPos.get(valoare);
+                        temp2.addAll(radacina.getDreapta().getFirstPos());
+                        tabelFollowPos.put(valoare,temp2);
+                    }
+                    else{
+                        tabelFollowPos.put(valoare,radacina.getDreapta().getFirstPos());
+                    }
+                }
             } break;
             case '*':{
                 radacina.addFirstPos(radacina.getStanga().getFirstPos());
                 radacina.addLastPos(radacina.getStanga().getLastPos());
                 radacina.setNullable(true);
+
+                HashSet<Integer> temp = radacina.getStanga().getLastPos();
+                Iterator<Integer> iterator = temp.iterator();
+                while(iterator.hasNext()){
+                    Integer valoare = iterator.next();
+
+                    if(tabelFollowPos.containsKey(valoare)){
+                        HashSet<Integer> temp2 = tabelFollowPos.get(valoare);
+                        temp2.addAll(radacina.getStanga().getFirstPos());
+                        tabelFollowPos.put(valoare,temp2);
+                    }
+                    else{
+                        tabelFollowPos.put(valoare,radacina.getStanga().getFirstPos());
+                    }
+                }
             } break;
             default: {}
         }
