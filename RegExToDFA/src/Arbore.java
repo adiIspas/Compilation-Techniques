@@ -71,13 +71,13 @@ public class Arbore {
         switch (radacina.getValoare()){
             case '|':{
                 radacina.addFirstPos(radacina.getDreapta().getFirstPos());
-                radacina.addLastPos(radacina.getDreapta().getLastPos());
-
                 radacina.addFirstPos(radacina.getStanga().getFirstPos());
+
+                radacina.addLastPos(radacina.getDreapta().getLastPos());
                 radacina.addLastPos(radacina.getStanga().getLastPos());
 
                 radacina.setNullable(radacina.getDreapta().isNullable() || radacina.getStanga().isNullable());
-            }
+            } break;
             case '.':{
                 if(radacina.getStanga().isNullable()){
                     radacina.addFirstPos(radacina.getDreapta().getFirstPos());
@@ -96,12 +96,13 @@ public class Arbore {
                 }
 
                 radacina.setNullable(radacina.getDreapta().isNullable() && radacina.getStanga().isNullable());
-            }
+            } break;
             case '*':{
                 radacina.addFirstPos(radacina.getStanga().getFirstPos());
                 radacina.addLastPos(radacina.getStanga().getLastPos());
                 radacina.setNullable(true);
-            }
+            } break;
+            default: {}
         }
 
             System.out.println("Nod => " + radacina.getValoare() + " Pozitie => " + radacina.getPozitie() +
