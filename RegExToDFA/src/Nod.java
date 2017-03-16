@@ -62,10 +62,6 @@ public class Nod {
         this.lastPos.addAll(lastPos);
     }
 
-    public HashSet<Integer> getFollowPos() {
-        return followPos;
-    }
-
     @Override
     public String toString() {
         return "Nod{" +

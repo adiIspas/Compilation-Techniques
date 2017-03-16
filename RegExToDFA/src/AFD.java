@@ -28,7 +28,8 @@ public class AFD {
         boolean found = true;
 
         stari.put(stareInitiala,false);
-        if(stareInitiala.toString().contains("#")){
+        String nodStareFinala1 = "" + frunzeArbore.size();
+        if(stareInitiala.toString().contains(nodStareFinala1)){
             stariFinale.add(stareInitiala.toString());
         }
 
@@ -50,12 +51,10 @@ public class AFD {
 
             for(Character element:alfabet.toCharArray()){
                 HashSet<Integer> stareaCurentaCompusa = new HashSet<>();
-                HashSet<Character> alfabetStareCurenta = new HashSet<>();
 
                 for (Integer pozitie:stareCurentaCoada) {
                     if (frunzeArbore.get(pozitie).equals(element)) {
-                        alfabetStareCurenta.add(frunzeArbore.get(pozitie));
-                        if (pozitie != frunzeArbore.size())
+                        if (tabelFollowPos.get(pozitie) != null)
                             stareaCurentaCompusa.addAll(tabelFollowPos.get(pozitie));
                     }
                 }

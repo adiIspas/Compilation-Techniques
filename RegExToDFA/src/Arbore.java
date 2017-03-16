@@ -18,10 +18,6 @@ public class Arbore {
         return radacina;
     }
 
-    public void setRadacina(Nod radacina) {
-        this.radacina = radacina;
-    }
-
     public HashMap<Integer, HashSet<Integer>> getTabelFollowPos() {
         return this.tabelFollowPos;
     }
