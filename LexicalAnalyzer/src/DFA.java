@@ -1,4 +1,5 @@
 import java.io.BufferedReader;
+import java.io.CharArrayReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
@@ -8,66 +9,83 @@ import java.util.HashSet;
  * Created by Adrian Ispas on 26.03.2017.
  */
 public class DFA {
-    private HashSet<Integer> states;
-    private Integer initialState;
-    private HashSet<Integer> finalStates;
-    private HashMap<Integer, HashMap<Character, Integer>> transitions;
+    private String initialState;
+    private HashSet<String> finalStates;
+    private HashMap<String, HashMap<Character, String>> transitions;
 
     public DFA() throws IOException {
         String FILENAME = "input\\dfa_c.txt";
         finalStates = new HashSet<>();
         transitions = new HashMap<>();
 
-        BufferedReader br = null;
-        FileReader fr = null;
-        fr = new FileReader(FILENAME);
-
         String currentLine;
-        br = new BufferedReader(new FileReader(FILENAME));
+        BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 
         int lineNumber = 0;
         while((currentLine = br.readLine()) != null){
             if(lineNumber == 0){
-                initialState = Integer.parseInt(currentLine);
+                initialState = currentLine;
             }
             else if(lineNumber == 1){
-                String[] splited = currentLine.split("\\s+");
+                String[] splitLine = currentLine.split("\\s+");
 
-                for(int i = 0; i < splited.length; i++){
-                    finalStates.add(Integer.parseInt(splited[i]));
+                for(int i = 0; i < splitLine.length; i++){
+                    finalStates.add(splitLine[i]);
                 }
             }
             else{
-                HashMap<Character, Integer> transitionTo = new HashMap();
-                String[] splited = currentLine.split("\\s+");
+                HashMap<Character, String> transitionTo = new HashMap<>();
+                String[] splitLine = currentLine.split("\\s+");
 
-                Integer initialState = Integer.parseInt(splited[0]);
-                Integer finalState = Integer.parseInt(splited[2]);
-                String characters = splited[1];
+                String initialState = splitLine[0];
+                String characters = splitLine[1];
+                String finalState = splitLine[2];
 
-                for(int i = 0; i < characters.length(); i++){
-                    transitionTo.put(characters.charAt(i),finalState);
+                if (characters.length() == 2) {
+                    switch (characters) {
+                        case "\\s" : {
+
+                        }
+                        case "\\r" : {
+                            transitionTo.put('\r',finalState);
+                        }
+                        case "\\n" : {
+                            transitionTo.put('\n',finalState);
+                        }
+                        case "\\t" : {
+                            transitionTo.put('\t',finalState);
+                        }
+                        case "\\f" : {
+                            transitionTo.put('\f',finalState);
+                        }
+                        case "\\v" : {
+
+                        }
+                        default : {}
+                    }
+                }
+                else {
+                    transitionTo.put(characters.charAt(0),finalState);
                 }
 
                 if(transitions.containsKey(initialState)){
-                    HashMap<Character, Integer> currentTransitions = transitions.get(initialState);
+                    HashMap<Character, String> currentTransitions = transitions.get(initialState);
                     currentTransitions.putAll(transitionTo);
                     transitions.put(initialState,currentTransitions);
                 }
                 else{
                     transitions.put(initialState,transitionTo);
                 }
-
             }
 
             lineNumber++;
         }
     }
 
-    public Integer getTransition(Integer state, Character character){
+    public String getTransition(String state, Character character){
 
-        HashMap<Character,Integer> transitionTo = null;
-        Integer transitionState = null;
+        HashMap<Character,String> transitionTo = null;
+        String transitionState = null;
 
         if(transitions.containsKey(state)){
             transitionTo = transitions.get(state);
@@ -76,14 +94,14 @@ public class DFA {
                 transitionState = transitionTo.get(character);
         }
 
-        return (transitionState != null) ? transitionState : -1;
+        return (transitionState != null) ? transitionState : "-1";
     }
 
-    public Integer getInitialState() {
+    public String getInitialState() {
         return initialState;
     }
 
-    public HashSet<Integer> getFinalStates() {
+    public HashSet<String> getFinalStates() {
         return finalStates;
     }
 }

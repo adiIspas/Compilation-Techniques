@@ -1,6 +1,9 @@
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -11,9 +14,8 @@ public class Scanner {
     private Integer scannerPosition;
     private String sourceCode;
     private HashSet<Token> tokensTable;
-    private HashMap<Integer, Integer> tokensTypes;
+    private HashMap<String, Integer> tokensTypes;
     private DFA dfa;
-
     private HashSet<String> keywords;
 
     public Scanner(String sourceCode) throws IOException {
@@ -27,16 +29,12 @@ public class Scanner {
 
         // Read types of tokens
         String FILENAME = "input\\tokens_types.txt";
-        BufferedReader br = null;
-        FileReader fr = null;
-        fr = new FileReader(FILENAME);
-
         String currentLine;
-        br = new BufferedReader(new FileReader(FILENAME));
+        BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 
         while ((currentLine = br.readLine()) != null) {
             String[] splited = currentLine.split("\\s+");
-            Integer state = Integer.parseInt(splited[0]);
+            String state = splited[0];
             Integer typeOfToken = Integer.parseInt(splited[1]);
 
             tokensTypes.put(state, typeOfToken);
@@ -44,7 +42,6 @@ public class Scanner {
 
         // Read keywords
         FILENAME = "input\\keywords_c.txt";
-        fr = new FileReader(FILENAME);
 
         br = new BufferedReader(new FileReader(FILENAME));
         while ((currentLine = br.readLine()) != null) {
@@ -53,12 +50,11 @@ public class Scanner {
     }
 
     public Token getToken() {
-
         Boolean done = false;
-        Token token = new Token(0, "succes");
+        Token token = new Token(0, "success");
 
         while (!done) {
-            Integer currentState = dfa.getInitialState();
+            String currentState = dfa.getInitialState();
             String currentTokenValue = "";
             Character currentStatus = 'c';
 
@@ -71,18 +67,22 @@ public class Scanner {
                 } else {
                     Character currentCharacter = sourceCode.charAt(scannerPosition);
 
-                    if (currentCharacter.equals(' '))
-                        currentCharacter = '~';
+//                    if (currentCharacter.equals(' ')){
+//                        scannerPosition++;
+//                        currentState = dfa.getInitialState();
+//                        currentTokenValue = "";
+//                        currentStatus = 'c';
+//                        continue;
+//                    }
 
-                    Integer nextState = dfa.getTransition(currentState, currentCharacter);
+                    String nextState = dfa.getTransition(currentState, currentCharacter);
 
-                    if (nextState != -1) {
+                    if (!nextState.equals("-1")) {
                         currentTokenValue += currentCharacter.toString();
                         currentState = nextState;
                         scannerPosition++;
                     } else {
                         if (dfa.getFinalStates().contains(currentState)) {
-//                            token = new Token(tokensTypes.get(currentState), currentTokenValue);
                             currentStatus = 's';
                         } else {
                             currentStatus = 'e';
@@ -93,12 +93,8 @@ public class Scanner {
 
             if (currentStatus.equals('s')) {
                 if (currentTokenValue.equals("")) {
-//                    token = new Token(0, "succes");
                     done = true;
-//                    return token;
                 } else {
-                    if (tokensTypes.get(currentState) != 4) {
-
                         if (tokensTypes.get(currentState) == 1 && keywords.contains(currentTokenValue)){
                             token = new Token(7, currentTokenValue);
                             tokensTable.add(token);
@@ -109,16 +105,10 @@ public class Scanner {
                             tokensTable.add(token);
                             done = true;
                         }
-
-//                        return token;
-                    } else {
-                        done = false;
-                    }
                 }
             } else {
                 done = true;
                 token = new Token(-1, "error at position " + scannerPosition);
-//                return new Token(-1, "error at position " + scannerPosition);
             }
         }
 

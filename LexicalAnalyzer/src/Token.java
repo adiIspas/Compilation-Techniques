@@ -14,10 +14,6 @@ public class Token {
         return this.type;
     }
 
-    public String getValue(){
-        return this.value;
-    }
-
     @Override
     public String toString() {
         return "Token{" +
