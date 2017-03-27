@@ -14,6 +14,8 @@ public class Scanner {
     private HashMap<Integer, Integer> tokensTypes;
     private DFA dfa;
 
+    private HashSet<String> keywords;
+
     public Scanner(String sourceCode) throws IOException {
         this.scannerPosition = 0;
         this.sourceCode = sourceCode;
@@ -21,6 +23,9 @@ public class Scanner {
         this.dfa = new DFA();
         this.tokensTypes = new HashMap<>();
 
+        this.keywords = new HashSet<>();
+
+        // Read types of tokens
         String FILENAME = "input\\tokens_types.txt";
         BufferedReader br = null;
         FileReader fr = null;
@@ -35,6 +40,15 @@ public class Scanner {
             Integer typeOfToken = Integer.parseInt(splited[1]);
 
             tokensTypes.put(state, typeOfToken);
+        }
+
+        // Read keywords
+        FILENAME = "input\\keywords_c.txt";
+        fr = new FileReader(FILENAME);
+
+        br = new BufferedReader(new FileReader(FILENAME));
+        while ((currentLine = br.readLine()) != null) {
+            keywords.add(currentLine);
         }
     }
 
@@ -84,9 +98,18 @@ public class Scanner {
 //                    return token;
                 } else {
                     if (tokensTypes.get(currentState) != 4) {
-                        token = new Token(tokensTypes.get(currentState), currentTokenValue);
-                        tokensTable.add(token);
-                        done = true;
+
+                        if (tokensTypes.get(currentState) == 1 && keywords.contains(currentTokenValue)){
+                            token = new Token(7, currentTokenValue);
+                            tokensTable.add(token);
+                            done = true;
+                        }
+                        else {
+                            token = new Token(tokensTypes.get(currentState), currentTokenValue);
+                            tokensTable.add(token);
+                            done = true;
+                        }
+
 //                        return token;
                     } else {
                         done = false;

@@ -5,7 +5,7 @@ import java.io.IOException;
  */
 public class RunApp {
     public static void main(String args[]) throws IOException {
-        String code = "abc=(12+x30)+1;  y =abc;";
+        String code = "abc=(12+x30)+1; auto y =abc;";
 //        String code = "ab12/*x12*";
 
         Scanner scanner = new Scanner(code);
