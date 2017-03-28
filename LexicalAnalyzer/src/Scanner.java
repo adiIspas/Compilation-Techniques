@@ -50,10 +50,10 @@ public class Scanner {
     }
 
     public Token getToken() {
+        Token token = new Token(0,"success");
         Boolean done = false;
-        Token token = new Token(0, "success");
 
-        while (!done) {
+        while(!done) {
             String currentState = dfa.getInitialState();
             String currentTokenValue = "";
             Character currentStatus = 'c';
@@ -67,13 +67,11 @@ public class Scanner {
                 } else {
                     Character currentCharacter = sourceCode.charAt(scannerPosition);
 
-//                    if (currentCharacter.equals(' ')){
-//                        scannerPosition++;
-//                        currentState = dfa.getInitialState();
-//                        currentTokenValue = "";
-//                        currentStatus = 'c';
-//                        continue;
-//                    }
+                    if (currentCharacter.equals(' ')) {
+                        scannerPosition++;
+                        currentStatus = 'b';
+                        continue;
+                    }
 
                     String nextState = dfa.getTransition(currentState, currentCharacter);
 
@@ -85,7 +83,7 @@ public class Scanner {
                         if (dfa.getFinalStates().contains(currentState)) {
                             currentStatus = 's';
                         } else {
-                            currentStatus = 'e';
+                            currentStatus = 'b';
                         }
                     }
                 }
@@ -93,22 +91,35 @@ public class Scanner {
 
             if (currentStatus.equals('s')) {
                 if (currentTokenValue.equals("")) {
+                    token = new Token(0, "success");
                     done = true;
                 } else {
-                        if (tokensTypes.get(currentState) == 1 && keywords.contains(currentTokenValue)){
-                            token = new Token(7, currentTokenValue);
-                            tokensTable.add(token);
-                            done = true;
-                        }
-                        else {
-                            token = new Token(tokensTypes.get(currentState), currentTokenValue);
-                            tokensTable.add(token);
-                            done = true;
-                        }
+                    if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
+                        token = new Token(tokensTypes.get("Keyword"), currentTokenValue);
+                        tokensTable.add(token);
+                        done = true;
+                    } else {
+                        token = new Token(tokensTypes.get(currentState), currentTokenValue);
+                        tokensTable.add(token);
+                        done = true;
+                    }
+                }
+            } else if (currentStatus.equals('b')) {
+                if (currentTokenValue.equals("")) {
+                    done = false;
+                } else {
+                    if (dfa.getFinalStates().contains(currentState)) {
+                        token = new Token(tokensTypes.get(currentState), currentTokenValue);
+                        tokensTable.add(token);
+                        done = true;
+                    } else {
+                        token = new Token(-1, "error at position " + scannerPosition);
+                        done = true;
+                    }
                 }
             } else {
-                done = true;
                 token = new Token(-1, "error at position " + scannerPosition);
+                done = true;
             }
         }
 
