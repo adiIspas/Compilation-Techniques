@@ -14,12 +14,16 @@ public class RunApp {
         String FILENAME = "input\\c_code.txt";
 
         String currentLine;
+        Integer currentValue;
         String code = "";
         BufferedReader br = new BufferedReader(new FileReader(FILENAME));
 
-        while ((currentLine = br.readLine()) != null) {
-           code += currentLine;
+        while ((currentValue = br.read()) != -1) {
+            System.out.print(Character.toChars(currentValue));
+           code += Character.toChars(currentValue);
         }
+
+        System.out.println(code);
 
         Scanner scanner = new Scanner(code);
         Token token;

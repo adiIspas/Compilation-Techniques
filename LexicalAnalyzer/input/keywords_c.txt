@@ -32,6 +32,3 @@ unsigned
 void
 volatile
 while
-_Bool
-_Complex
-_Imaginary

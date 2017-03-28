@@ -44,7 +44,7 @@ public class DFA {
                 if (characters.length() >= 2) {
                     switch (characters) {
                         case "\\u00A0" : {
-                            transitionTo.put('\u00A0',finalState);
+                            transitionTo.put('\u00A0',finalState); // Space char
                         }
                         case "\\r" : {
                             transitionTo.put('\r',finalState);
@@ -58,8 +58,8 @@ public class DFA {
                         case "\\f" : {
                             transitionTo.put('\f',finalState);
                         }
-                        case "\\v" : {
-
+                        case "\\u000B" : {
+                            transitionTo.put('\u000B',finalState); // Vertical tab char
                         }
                         default : {}
                     }
