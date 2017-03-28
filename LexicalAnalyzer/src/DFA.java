@@ -41,10 +41,10 @@ public class DFA {
                 String characters = splitLine[1];
                 String finalState = splitLine[2];
 
-                if (characters.length() == 2) {
+                if (characters.length() >= 2) {
                     switch (characters) {
-                        case "\\s" : {
-
+                        case "\\u00A0" : {
+                            transitionTo.put('\u00A0',finalState);
                         }
                         case "\\r" : {
                             transitionTo.put('\r',finalState);

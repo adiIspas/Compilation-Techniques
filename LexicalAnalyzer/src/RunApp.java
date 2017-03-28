@@ -8,7 +8,6 @@ import java.io.PrintWriter;
  */
 public class RunApp {
     public static void main(String args[]) throws IOException {
-
         PrintWriter writeToFile = new PrintWriter("output\\tokens.txt", "UTF-8");
 
         // Read C code

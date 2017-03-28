@@ -50,7 +50,7 @@ public class Scanner {
     }
 
     public Token getToken() {
-        Token token = new Token(0,"success");
+        Token token = new Token(tokensTypes.get("OK"),"Success");
         Boolean done = false;
 
         while(!done) {
@@ -68,9 +68,7 @@ public class Scanner {
                     Character currentCharacter = sourceCode.charAt(scannerPosition);
 
                     if (currentCharacter.equals(' ')) {
-                        scannerPosition++;
-                        currentStatus = 'b';
-                        continue;
+                        currentCharacter = '\u00A0';
                     }
 
                     String nextState = dfa.getTransition(currentState, currentCharacter);
@@ -91,7 +89,7 @@ public class Scanner {
 
             if (currentStatus.equals('s')) {
                 if (currentTokenValue.equals("")) {
-                    token = new Token(0, "success");
+                    token = new Token(tokensTypes.get("OK"), "Success");
                     done = true;
                 } else {
                     if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
@@ -113,12 +111,12 @@ public class Scanner {
                         tokensTable.add(token);
                         done = true;
                     } else {
-                        token = new Token(-1, "error at position " + scannerPosition);
+                        token = new Token(tokensTypes.get("Error"), "Error at position " + scannerPosition);
                         done = true;
                     }
                 }
             } else {
-                token = new Token(-1, "error at position " + scannerPosition);
+                token = new Token(tokensTypes.get("Error"), "Error at position " + scannerPosition);
                 done = true;
             }
         }
