@@ -44,22 +44,22 @@ public class DFA {
                 if (characters.length() >= 2) {
                     switch (characters) {
                         case "\\u00A0" : {
-                            transitionTo.put('\u00A0',finalState); // Space char
-                        }
+                            transitionTo.put((char)32,finalState); // Space char
+                        } break;
                         case "\\r" : {
-                            transitionTo.put('\r',finalState);
-                        }
+                            transitionTo.put((char)13,finalState);
+                        } break;
                         case "\\n" : {
-                            transitionTo.put('\n',finalState);
-                        }
+                            transitionTo.put((char)10,finalState);
+                        } break;
                         case "\\t" : {
-                            transitionTo.put('\t',finalState);
-                        }
+                            transitionTo.put((char)9,finalState);
+                        } break;
                         case "\\f" : {
-                            transitionTo.put('\f',finalState);
-                        }
+                            transitionTo.put((char)12,finalState);
+                        } break;
                         case "\\u000B" : {
-                            transitionTo.put('\u000B',finalState); // Vertical tab char
+                            transitionTo.put((char)11,finalState); // Vertical tab char
                         }
                         default : {}
                     }

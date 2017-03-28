@@ -12,13 +12,13 @@ import java.util.HashSet;
  */
 public class Scanner {
     private Integer scannerPosition;
-    private String sourceCode;
+    private char[] sourceCode;
     private HashSet<Token> tokensTable;
     private HashMap<String, Integer> tokensTypes;
     private DFA dfa;
     private HashSet<String> keywords;
 
-    public Scanner(String sourceCode) throws IOException {
+    public Scanner(char[] sourceCode) throws IOException {
         this.scannerPosition = 0;
         this.sourceCode = sourceCode;
         this.tokensTable = new HashSet<>();
@@ -59,17 +59,13 @@ public class Scanner {
             Character currentStatus = 'c';
 
             while (currentStatus.equals('c')) {
-                if (scannerPosition >= sourceCode.length()) {
+                if (scannerPosition >= sourceCode.length) {
                     currentStatus = 'b';
 
                     if (dfa.getFinalStates().contains(currentState) || currentState.equals(dfa.getInitialState()))
                         currentStatus = 's';
                 } else {
-                    Character currentCharacter = sourceCode.charAt(scannerPosition);
-
-                    if (currentCharacter.equals(' ')) {
-                        currentCharacter = '\u00A0';
-                    }
+                    Character currentCharacter = sourceCode[scannerPosition];
 
                     String nextState = dfa.getTransition(currentState, currentCharacter);
 
@@ -80,8 +76,14 @@ public class Scanner {
                     } else {
                         if (dfa.getFinalStates().contains(currentState)) {
                             currentStatus = 's';
+
+                            if (currentCharacter.equals(' ') || currentCharacter == 0)
+                                scannerPosition++;
                         } else {
                             currentStatus = 'b';
+
+                            if (currentCharacter.equals(' ') || currentCharacter == 0)
+                                scannerPosition++;
                         }
                     }
                 }

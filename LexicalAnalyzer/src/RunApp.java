@@ -1,4 +1,3 @@
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -8,22 +7,25 @@ import java.io.PrintWriter;
  */
 public class RunApp {
     public static void main(String args[]) throws IOException {
+//        DFA dfa = new DFA();
+//        System.out.println(dfa.getTransition("comm",'\n'));
+
         PrintWriter writeToFile = new PrintWriter("output\\tokens.txt", "UTF-8");
 
         // Read C code
         String FILENAME = "input\\c_code.txt";
 
-        String currentLine;
         Integer currentValue;
-        String code = "";
-        BufferedReader br = new BufferedReader(new FileReader(FILENAME));
+        FileReader fr = new FileReader(FILENAME);
 
-        while ((currentValue = br.read()) != -1) {
-            System.out.print(Character.toChars(currentValue));
-           code += Character.toChars(currentValue);
+        char[] code = new char[500];
+        int index = 0;
+        while ((currentValue = fr.read()) != -1) {
+            char[] temp = Character.toChars(currentValue);
+            for(int i = 0; i < temp.length; i++){
+                code[index++] = temp[i];
+            }
         }
-
-        System.out.println(code);
 
         Scanner scanner = new Scanner(code);
         Token token;
