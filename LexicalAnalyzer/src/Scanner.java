@@ -3,7 +3,6 @@ import com.sun.org.apache.xpath.internal.operations.Bool;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -74,50 +73,40 @@ public class Scanner {
                         currentState = nextState;
                         scannerPosition++;
                     } else {
-                        if (dfa.getFinalStates().contains(currentState)) {
+                        currentStatus = 'b';
+                        if (dfa.getFinalStates().contains(currentState) && scannerPosition < sourceCode.length) {
                             currentStatus = 's';
-
-                            if (currentCharacter.equals(' ') || currentCharacter == 0)
-                                scannerPosition++;
-                        } else {
-                            currentStatus = 'b';
-
-                            if (currentCharacter.equals(' ') || currentCharacter == 0)
-                                scannerPosition++;
+                        }
+                        else if (dfa.getFinalStates().contains(currentState) && scannerPosition >= sourceCode.length) {
+                            currentStatus = 's';
+                        }
+                        else if (!dfa.getFinalStates().contains(currentState) && currentStatus.equals('b')) {
+                            currentStatus = 'e';
                         }
                     }
                 }
             }
 
             if (currentStatus.equals('s')) {
-                if (currentTokenValue.equals("")) {
-                    token = new Token(tokensTypes.get("OK"), "Success");
+                if (tokensTypes.get(currentState) == 2) {
+                    done = false;
+                    continue;
+                }
+                if(currentTokenValue.equals(""))
+                    return token;
+
+                if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
+                    token = new Token(tokensTypes.get("Keyword"), currentTokenValue);
+                    tokensTable.add(token);
+
                     done = true;
                 } else {
-                    if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
-                        token = new Token(tokensTypes.get("Keyword"), currentTokenValue);
-                        tokensTable.add(token);
-                        done = true;
-                    } else {
-                        token = new Token(tokensTypes.get(currentState), currentTokenValue);
-                        tokensTable.add(token);
-                        done = true;
-                    }
+                    token = new Token(tokensTypes.get(currentState), currentTokenValue);
+                    tokensTable.add(token);
+
+                    done = true;
                 }
-            } else if (currentStatus.equals('b')) {
-                if (currentTokenValue.equals("")) {
-                    done = false;
-                } else {
-                    if (dfa.getFinalStates().contains(currentState)) {
-                        token = new Token(tokensTypes.get(currentState), currentTokenValue);
-                        tokensTable.add(token);
-                        done = true;
-                    } else {
-                        token = new Token(tokensTypes.get("Error"), "Error at position " + scannerPosition);
-                        done = true;
-                    }
-                }
-            } else {
+            } else if (currentStatus.equals('b') || currentStatus.equals('e')) {
                 token = new Token(tokensTypes.get("Error"), "Error at position " + scannerPosition);
                 done = true;
             }
