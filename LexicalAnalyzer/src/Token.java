@@ -3,22 +3,26 @@
  */
 public class Token {
     private Integer type;
-    private String  value;
+    private Integer valueIndex;
 
-    public Token(Integer type, String value){
+    public Token(Integer type, Integer valueIndex){
         this.type  = type;
-        this.value = value;
+        this.valueIndex = valueIndex;
     }
 
     public Integer getType(){
         return this.type;
     }
 
+    public Integer getValueIndex() {
+        return this.valueIndex;
+    }
+
     @Override
     public String toString() {
         return "Token{" +
                 "type=" + type +
-                ", value='" + value + '\'' +
+                ", value='" + valueIndex + '\'' +
                 '}';
     }
 }

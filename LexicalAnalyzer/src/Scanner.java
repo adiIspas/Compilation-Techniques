@@ -1,5 +1,3 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -12,20 +10,23 @@ import java.util.HashSet;
 public class Scanner {
     private Integer scannerPosition;
     private char[] sourceCode;
-    private HashSet<Token> tokensTable;
+    private HashMap<String, Integer> tokensTable;
     private HashMap<String, Integer> tokensTypes;
     private DFA dfa;
     private HashSet<String> keywords;
+    private Integer tokenIndex;
 
     public Scanner(char[] sourceCode) throws IOException {
         this.scannerPosition = 0;
         this.sourceCode = sourceCode;
-        this.tokensTable = new HashSet<>();
+        this.tokensTable = new HashMap<>();
         this.dfa = new DFA();
         this.tokensTypes = new HashMap<>();
-
+        this.tokenIndex = 1;
         this.keywords = new HashSet<>();
 
+        tokensTable.put("Success", 0);
+        tokensTable.put("Error", -1);
         // Read types of tokens
         String FILENAME = "input\\tokens_types.txt";
         String currentLine;
@@ -49,7 +50,7 @@ public class Scanner {
     }
 
     public Token getToken() {
-        Token token = new Token(tokensTypes.get("OK"),"Success");
+        Token token = new Token(tokensTypes.get("OK"),0);
         Boolean done = false;
 
         while(!done) {
@@ -96,18 +97,36 @@ public class Scanner {
                     return token;
 
                 if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
-                    token = new Token(tokensTypes.get("Keyword"), currentTokenValue);
-                    tokensTable.add(token);
+
+                    if (tokensTable.containsKey(currentTokenValue)) {
+                        tokenIndex = tokensTable.get(currentTokenValue);
+                        token = new Token(tokensTypes.get("Keyword"), tokenIndex);
+                        tokensTable.put(currentTokenValue, tokenIndex);
+                    }
+                    else {
+                        token = new Token(tokensTypes.get("Keyword"), tokenIndex);
+                        tokensTable.put(currentTokenValue, tokenIndex);
+                        tokenIndex++;
+                    }
 
                     done = true;
                 } else {
-                    token = new Token(tokensTypes.get(currentState), currentTokenValue);
-                    tokensTable.add(token);
+
+                    if (tokensTable.containsKey(currentTokenValue)) {
+                        tokenIndex = tokensTable.get(currentTokenValue);
+                        token = new Token(tokensTypes.get(currentState), tokenIndex);
+                        tokensTable.put(currentTokenValue, tokenIndex);
+                    }
+                    else {
+                        token = new Token(tokensTypes.get(currentState), tokenIndex);
+                        tokensTable.put(currentTokenValue, tokenIndex);
+                        tokenIndex++;
+                    }
 
                     done = true;
                 }
             } else if (currentStatus.equals('b') || currentStatus.equals('e')) {
-                token = new Token(tokensTypes.get("Error"), "Error at position " + scannerPosition);
+                token = new Token(tokensTypes.get("Error"), -1);
                 done = true;
             }
         }
@@ -115,7 +134,18 @@ public class Scanner {
         return token;
     }
 
-    public HashSet<Token> getTokensTable() {
-        return tokensTable;
+    public String getTokenByIndex(Integer index){
+        if(tokensTable.containsValue(index)){
+            HashSet<String> keySet = new HashSet<>();
+            keySet.addAll(tokensTable.keySet());
+
+            for (String tokenValue:keySet) {
+                if (tokensTable.get(tokenValue).equals(index)) {
+                    return tokenValue;
+                }
+            }
+        }
+
+        return "-1";
     }
 }

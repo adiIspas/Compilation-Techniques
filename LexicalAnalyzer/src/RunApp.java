@@ -34,10 +34,15 @@ public class RunApp {
             if(token.getType() == 0)
                 break;
 
-            writeToFile.println(token);
+            writeToFile.println(showToken(token.getType(),scanner.getTokenByIndex(token.getValueIndex())));
         }
 
-        writeToFile.println(token);
+        writeToFile.println("Final token{type = " + token.getType() + " | value = " +
+                scanner.getTokenByIndex(token.getValueIndex()) + " }");
         writeToFile.close();
+    }
+
+    private static String showToken(Integer type, String value){
+        return "Token{type = " + type + " | " + "value = " + value + " }";
     }
 }
