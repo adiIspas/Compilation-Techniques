@@ -28,7 +28,7 @@ public class RunApp {
 
         Scanner scanner = new Scanner(code);
         Token token;
-
+        
         while((token = scanner.getToken()).getType() != -1){
 
             if(token.getType() == 0)

@@ -99,11 +99,12 @@ public class Scanner {
                 if (tokensTypes.get(currentState).equals(1) && keywords.contains(currentTokenValue)) {
 
                     if (tokensTable.containsKey(currentTokenValue)) {
-                        tokenIndex = tokensTable.get(currentTokenValue);
-                        token = new Token(tokensTypes.get("Keyword"), tokenIndex);
-                        tokensTable.put(currentTokenValue, tokenIndex);
+                        Integer tempTokenIndex = tokensTable.get(currentTokenValue);
+                        token = new Token(tokensTypes.get("Keyword"), tempTokenIndex);
+                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
+
                         token = new Token(tokensTypes.get("Keyword"), tokenIndex);
                         tokensTable.put(currentTokenValue, tokenIndex);
                         tokenIndex++;
@@ -113,11 +114,12 @@ public class Scanner {
                 } else {
 
                     if (tokensTable.containsKey(currentTokenValue)) {
-                        tokenIndex = tokensTable.get(currentTokenValue);
-                        token = new Token(tokensTypes.get(currentState), tokenIndex);
-                        tokensTable.put(currentTokenValue, tokenIndex);
+                        Integer tempTokenIndex = tokensTable.get(currentTokenValue);
+                        token = new Token(tokensTypes.get(currentState), tempTokenIndex);
+                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
+
                         token = new Token(tokensTypes.get(currentState), tokenIndex);
                         tokensTable.put(currentTokenValue, tokenIndex);
                         tokenIndex++;
@@ -147,5 +149,9 @@ public class Scanner {
         }
 
         return "-1";
+    }
+
+    public HashMap<String, Integer> getTokensTable(){
+        return this.tokensTable;
     }
 }
