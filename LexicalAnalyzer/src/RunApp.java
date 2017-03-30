@@ -28,13 +28,13 @@ public class RunApp {
 
         Scanner scanner = new Scanner(code);
         Token token;
-        
+
         while((token = scanner.getToken()).getType() != -1){
 
             if(token.getType() == 0)
                 break;
 
-            writeToFile.println(showToken(token.getType(),scanner.getTokenByIndex(token.getValueIndex())));
+            writeToFile.println(showToken(scanner.getDefByTypeIndex(token.getType()),scanner.getTokenByIndex(token.getValueIndex())));
         }
 
         writeToFile.println("Final token{type = " + token.getType() + " | value = " +
@@ -42,7 +42,7 @@ public class RunApp {
         writeToFile.close();
     }
 
-    private static String showToken(Integer type, String value){
+    private static String showToken(String type, String value){
         return "Token{type = " + type + " | " + "value = " + value + " }";
     }
 }

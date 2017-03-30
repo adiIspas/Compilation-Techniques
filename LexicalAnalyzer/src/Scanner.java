@@ -101,7 +101,7 @@ public class Scanner {
                     if (tokensTable.containsKey(currentTokenValue)) {
                         Integer tempTokenIndex = tokensTable.get(currentTokenValue);
                         token = new Token(tokensTypes.get("Keyword"), tempTokenIndex);
-                        tokensTable.put(currentTokenValue, tempTokenIndex);
+//                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
 
@@ -116,7 +116,7 @@ public class Scanner {
                     if (tokensTable.containsKey(currentTokenValue)) {
                         Integer tempTokenIndex = tokensTable.get(currentTokenValue);
                         token = new Token(tokensTypes.get(currentState), tempTokenIndex);
-                        tokensTable.put(currentTokenValue, tempTokenIndex);
+//                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
 
@@ -143,6 +143,21 @@ public class Scanner {
 
             for (String tokenValue:keySet) {
                 if (tokensTable.get(tokenValue).equals(index)) {
+                    return tokenValue;
+                }
+            }
+        }
+
+        return "-1";
+    }
+
+    public String getDefByTypeIndex(Integer index){
+        if(tokensTypes.containsValue(index)){
+            HashSet<String> keySet = new HashSet<>();
+            keySet.addAll(tokensTypes.keySet());
+
+            for (String tokenValue:keySet) {
+                if (tokensTypes.get(tokenValue).equals(index)) {
                     return tokenValue;
                 }
             }
