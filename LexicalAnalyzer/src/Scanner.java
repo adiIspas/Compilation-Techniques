@@ -101,7 +101,6 @@ public class Scanner {
                     if (tokensTable.containsKey(currentTokenValue)) {
                         Integer tempTokenIndex = tokensTable.get(currentTokenValue);
                         token = new Token(tokensTypes.get("Keyword"), tempTokenIndex);
-//                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
 
@@ -116,7 +115,6 @@ public class Scanner {
                     if (tokensTable.containsKey(currentTokenValue)) {
                         Integer tempTokenIndex = tokensTable.get(currentTokenValue);
                         token = new Token(tokensTypes.get(currentState), tempTokenIndex);
-//                        tokensTable.put(currentTokenValue, tempTokenIndex);
                     }
                     else {
 
